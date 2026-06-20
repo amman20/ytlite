@@ -39,6 +39,42 @@ on:
         required: true
         default: false
 
+      enable_ytweaks:
+        description: "Integrate YTweaks"
+        type: boolean
+        required: true
+        default: false
+
+      enable_gonerino:
+        description: "Integrate Gonerino"
+        type: boolean
+        required: true
+        default: false
+
+      enable_youspeed:
+        description: "Integrate YouSpeed"
+        type: boolean
+        required: true
+        default: false
+
+      enable_ytlcm:
+        description: "Integrate YTLowContrastMode"
+        type: boolean
+        required: true
+        default: false
+
+      enable_volumeboostyt:
+        description: "Integrate VolumeBoostYT"
+        type: boolean
+        required: true
+        default: false
+
+      enable_yougetcaption:
+        description: "Integrate YouGetCaption"
+        type: boolean
+        required: true
+        default: false
+
       ipa_url:
         description: "URL to the decrypted IPA file"
         default: ""
@@ -46,7 +82,7 @@ on:
         type: string
 
       tweak_version:
-        description: "The version of the tweak to use. Enter the version manually from dayanch96/YTLite/releases or leave default"
+        description: "The version of the tweak to use. Enter the version manually from Mark02-2012/YTPlusM-DIY/releases or leave default"
         default: "5.2.1"
         required: true
         type: string
@@ -65,7 +101,7 @@ on:
 
       info_note:
         description: "TIP: Learn more about integrations in the README via the link below"
-        default: "https://github.com/dayanch96/YTLite#tweak-integration-details"
+        default: "https://github.com/Mark02-2012/YTPlusM#tweak-integration-details"
         type: string
         required: false
 
@@ -83,6 +119,12 @@ jobs:
       enable_ryd: ${{ inputs.enable_ryd }}
       enable_ytabc: ${{ inputs.enable_ytabc }}
       enable_demc: ${{ inputs.enable_demc }}
+      enable_ytweaks: ${{ inputs.enable_ytweaks }}
+      enable_gonerino: ${{ inputs.enable_gonerino }}
+      enable_youspeed: ${{ inputs.enable_youspeed }}
+      enable_ytlcm: ${{ inputs.enable_ytlcm }}
+      enable_volumeboostyt: ${{ inputs.enable_volumeboostyt }}
+      enable_yougetcaption: ${{ inputs.enable_yougetcaption }}
       tweak_version: ${{ inputs.tweak_version }}
 
   package:
@@ -102,7 +144,7 @@ jobs:
       - name: Hide sensitive inputs
         uses: levibostian/action-hide-sensitive-inputs@v1
         with:
-          exclude_inputs: bundle_id,display_name,enable_demc,enable_ryd,enable_ytabc,enable_youpip,enable_yq,enable_ytuhd,info_note,tweak_version
+          exclude_inputs: bundle_id,display_name,enable_demc,enable_ryd,enable_ytabc,enable_youpip,enable_yq,enable_ytuhd,enable_ytweaks,enable_gonerino,enable_youspeed,enable_ytlcm,enable_volumeboostyt,enable_yougetcaption,info_note,tweak_version
 
       - name: Download and validate IPA
         run: |
