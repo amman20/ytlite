@@ -33,6 +33,36 @@ on:
         required: true
         default: false
 
+      enable_ytweaks:
+        type: boolean
+        required: true
+        default: false
+
+      enable_gonerino:
+        type: boolean
+        required: true
+        default: false
+
+      enable_youspeed:
+        type: boolean
+        required: true
+        default: false
+
+      enable_ytlcm:
+        type: boolean
+        required: true
+        default: false
+
+      enable_volumeboostyt:
+        type: boolean
+        required: true
+        default: false
+
+      enable_yougetcaption:
+        type: boolean
+        required: true
+        default: false
+
       tweak_version:
         type: string
         required: false
@@ -58,7 +88,7 @@ jobs:
           echo "THEOS=${{ github.workspace }}/theos" >> $GITHUB_ENV
 
       - name: Cache Theos
-        if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc }}
+        if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc || inputs.enable_ytweaks || inputs.enable_gonerino || inputs.enable_youspeed || inputs.enable_ytlcm || inputs.enable_volumeboostyt || inputs.enable_yougetcaption }}
         id: theos
         uses: actions/cache@v5
         env:
@@ -69,7 +99,7 @@ jobs:
           restore-keys: ${{ env.cache-name }}
 
       - name: Setup Theos
-        if: ${{ (inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc) && steps.theos.outputs.cache-hit != 'true' }}
+        if: ${{ (inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc || inputs.enable_ytweaks || inputs.enable_gonerino || inputs.enable_youspeed || inputs.enable_ytlcm || inputs.enable_volumeboostyt || inputs.enable_yougetcaption) && steps.theos.outputs.cache-hit != 'true' }}
         uses: actions/checkout@v6
         with:
           repository: theos/theos
@@ -78,7 +108,7 @@ jobs:
           submodules: recursive
 
       - name: Download iOS SDK
-        if: ${{ (inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc) && steps.theos.outputs.cache-hit != 'true' }}
+        if: ${{ (inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc || inputs.enable_ytweaks || inputs.enable_gonerino || inputs.enable_youspeed || inputs.enable_ytlcm || inputs.enable_volumeboostyt || inputs.enable_yougetcaption) && steps.theos.outputs.cache-hit != 'true' }}
         run: |
           git clone --quiet -n --depth=1 --filter=tree:0 https://github.com/theos/sdks/
           cd sdks
@@ -89,7 +119,7 @@ jobs:
       - name: Download YouTube Plus (by version)
         if: ${{ inputs.tweak_version != '' }}
         run: |
-          deb_url="https://github.com/dayanch96/YTLite/releases/download/v${{ inputs.tweak_version }}/com.dvntm.ytlite_${{ inputs.tweak_version }}_iphoneos-arm.deb"
+          deb_url="https://github.com/Mark02-2012/YTPlusM-DIY/releases/download/YTPlusVersions/com.dvntm.ytlite_${{ inputs.tweak_version }}_iphoneos-arm.deb"
           wget "$deb_url" --no-verbose -O ytplus.deb
 
       - name: Download YouTube Plus (by URL)
@@ -103,7 +133,7 @@ jobs:
           fi
 
       - name: Clone YouTubeHeader
-        if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc }}
+        if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc || inputs.enable_ytweaks || inputs.enable_gonerino || inputs.enable_youspeed || inputs.enable_ytlcm || inputs.enable_volumeboostyt || inputs.enable_yougetcaption }}
         run: |
           if [ -d "$THEOS/include/YouTubeHeader" ]; then
             cd $THEOS/include/YouTubeHeader && git pull
@@ -116,7 +146,7 @@ jobs:
           fi
 
       - name: Clone PSHeader
-        if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc }}
+        if: ${{ inputs.enable_youpip || inputs.enable_ytuhd || inputs.enable_yq || inputs.enable_ryd || inputs.enable_ytabc || inputs.enable_demc || inputs.enable_ytweaks || inputs.enable_gonerino || inputs.enable_youspeed || inputs.enable_ytlcm || inputs.enable_volumeboostyt || inputs.enable_yougetcaption }}
         run: |
           if [ -d "$THEOS/include/PSHeader" ]; then
             cd $THEOS/include/PSHeader && git pull
@@ -155,6 +185,30 @@ jobs:
       - name: Clone DontEatMyContent
         if: ${{ inputs.enable_demc }}
         run: git clone --quiet --depth=1 https://github.com/therealFoxster/DontEatMyContent.git
+
+      - name: Clone YTweaks
+        if: ${{ inputs.enable_ytweaks }}
+        run: git clone --quiet --depth=1 https://github.com/fosterbarnes/YTweaks.git
+
+      - name: Clone Gonerino
+        if: ${{ inputs.enable_gonerino }}
+        run: git clone --quiet --depth=1 https://github.com/castdrian/Gonerino.git
+
+      - name: Clone YouSpeed
+        if: ${{ inputs.enable_youspeed }}
+        run: git clone --quiet --depth=1 https://github.com/PoomSmart/YouSpeed.git
+
+      - name: Clone YTLowContrastMode
+        if: ${{ inputs.enable_ytlcm }}
+        run: git clone --quiet --depth=1 https://github.com/arichornlover/YTLowContrastMode.git
+
+      - name: Clone VolumeBoostYT
+        if: ${{ inputs.enable_volumeboostyt }}
+        run: git clone --quiet --depth=1 https://github.com/VasirakCalgux/VolumeBoostYT.git
+
+      - name: Clone YouGetCaption
+        if: ${{ inputs.enable_yougetcaption }}
+        run: git clone --quiet --depth=1 https://github.com/PoomSmart/YouGetCaption.git
 
       - name: Build YouPiP
         if: ${{ inputs.enable_youpip }}
@@ -203,6 +257,42 @@ jobs:
         run: |
           cd DontEatMyContent && make clean package DEBUG=0 FINALPACKAGE=1
           mv packages/*.deb ../demc.deb
+
+      - name: Build YTweaks
+        if: ${{ inputs.enable_ytweaks }}
+        run: |
+          cd YTweaks && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../ytweaks.deb
+
+      - name: Build Gonerino
+        if: ${{ inputs.enable_gonerino }}
+        run: |
+          cd Gonerino && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../gonerino.deb
+
+      - name: Build YouSpeed
+        if: ${{ inputs.enable_youspeed }}
+        run: |
+          cd YouSpeed && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../youspeed.deb
+
+      - name: Build YTLowContrastMode
+        if: ${{ inputs.enable_ytlcm }}
+        run: |
+          cd YTLowContrastMode && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../ytlcm.deb
+
+      - name: Build VolumeBoostYT
+        if: ${{ inputs.enable_volumeboostyt }}
+        run: |
+          cd VolumeBoostYT && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../volumeboostyt.deb
+
+      - name: Build YouGetCaption
+        if: ${{ inputs.enable_yougetcaption }}
+        run: |
+          cd YouGetCaption && make clean package DEBUG=0 FINALPACKAGE=1
+          mv packages/*.deb ../yougetcaption.deb
 
       - name: Clone Open in YouTube (Safari extension)
         run: |
